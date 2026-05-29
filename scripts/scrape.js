@@ -47,12 +47,23 @@ async function fetchPage(offset) {
         if (seen.has(v.id)) continue;
         seen.add(v.id);
         const content = (v.translations && v.translations[0] && v.translations[0].content) || '';
+        // Construct best possible public URL. Prefer direct/apply links; otherwise build /ad/{slug}/{shortId} when shortId exists; fallback to /ledige-stillinger/{slug}
+        let url = null;
+        if (v.directLink) url = v.directLink;
+        else if (v.applyLink) url = v.applyLink;
+        else if (v.shortId) {
+          const slug = v.titleAsUrl || '';
+          url = `https://aarhus.career.emply.com/ad/${slug}/${v.shortId}`;
+        } else if (v.titleAsUrl) {
+          url = `https://aarhus.career.emply.com/ledige-stillinger/${v.titleAsUrl}`;
+        }
+
         all.push({
           id: v.id,
           number: v.number,
           title: v.title,
           titleAsUrl: v.titleAsUrl,
-          url: v.titleAsUrl ? `https://aarhus.career.emply.com/ledige-stillinger/${v.titleAsUrl}` : null,
+          url,
           location: v.location || (v.factDatas && v.factDatas.find(f=>f.factId==='location')?.text) || '',
           department: v.department || '',
           shortId: v.shortId || '',

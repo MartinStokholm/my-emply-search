@@ -10,14 +10,49 @@
 <body>
   <div id="app">
     <h1>Job Search - Aarhus</h1>
-    <input v-model="query" placeholder="Filter by words (space-separated)" />
+    <div class="controls">
+      <input v-model="query" placeholder="Filter by words (space-separated)" />
+
+      <div class="field-controls">
+        <label><input type="checkbox" v-model="searchFields.title" /> Title</label>
+        <label><input type="checkbox" v-model="searchFields.location" /> Location</label>
+        <label><input type="checkbox" v-model="searchFields.content" /> Content</label>
+      </div>
+
+      <div class="tag-controls">
+        <button @click="addTag" class="tag-add" :disabled="!query.trim()">Save search</button>
+        <button @click="clearSaved" class="tag-clear" v-if="savedTags.length">Clear saved</button>
+      </div>
+
+      <div class="active-filters" v-if="activeWords.length">
+        Active filters:
+        <span class="active-word" v-for="w in activeWords" :key="w">{{w}}</span>
+      </div>
+
+      <label style="display:block;margin-top:8px"><input type="checkbox" v-model="showReasons" /> Show match reasons</label>
+
+      <div class="saved-tags" v-if="savedTags.length">
+        <span class="tag" 
+              v-for="(t, idx) in savedTags" 
+              :key="t.text" 
+              :class="{active: t.active}"
+              @click="toggleTag(idx)">
+          {{t.text}}
+        </span>
+      </div>
+    </div>
     <div v-if="loading">Loading jobs...</div>
     <div v-else>
       <div v-if="filtered.length===0">No jobs found.</div>
       <ul>
-        <li v-for="job in filtered" :key="job.url">
-          <a :href="job.url" target="_blank" rel="noopener">{{job.title}}</a>
-          <div class="meta">{{job.location}}</div>
+        <li v-for="job in filtered" :key="job && job.id">
+          <template v-if="job">
+            <a :href="job.url || '#'" target="_blank" rel="noopener">{{job.title || '(no title)'}} </a>
+            <div class="meta">{{job.location || ''}}</div>
+            <div class="match-reasons" v-if="showReasons">
+              <span v-for="m in getMatchInfo(job)" :key="m.word">{{m.word}}: {{m.fields.join(', ')}}</span>
+            </div>
+          </template>
         </li>
       </ul>
     </div>
