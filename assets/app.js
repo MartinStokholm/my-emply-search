@@ -8,7 +8,7 @@ createApp({
 
     onMounted(async () => {
       try {
-        const resp = await fetch('/data/jobs.json');
+        const resp = await fetch('./data/jobs.json');
         if (!resp.ok) throw new Error('Failed to load jobs.json');
         jobs.value = await resp.json();
       } catch (e) {
