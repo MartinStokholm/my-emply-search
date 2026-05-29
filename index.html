@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emply Job Search - Aarhus</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Job Search - Aarhus</h1>
+    <input v-model="query" placeholder="Filter by words (space-separated)" />
+    <div v-if="loading">Loading jobs...</div>
+    <div v-else>
+      <div v-if="filtered.length===0">No jobs found.</div>
+      <ul>
+        <li v-for="job in filtered" :key="job.url">
+          <a :href="job.url" target="_blank" rel="noopener">{{job.title}}</a>
+          <div class="meta">{{job.location}}</div>
+        </li>
+      </ul>
+    </div>
+    <p class="note">Data refreshed by GitHub Actions scraper; if empty, run the workflow or check the action logs.</p>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>
