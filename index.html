@@ -4,105 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Emply Job Search - Aarhus</title>
-    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="/src/index.css" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/vue-i18n@9/dist/vue-i18n.global.prod.js"></script>
   </head>
   <body>
     <div id="app">
       <h1>{{ $t('title') }}</h1>
-      <div class="controls">
-        <div
-          style="
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-          "
-        >
-          <select v-model="locale">
-            <option value="da">Dansk</option>
-            <option value="en">English</option>
-          </select>
-          <div style="font-size: 13px; color: #666">
-            {{ $t('language_help') }}
-          </div>
-        </div>
 
-        <input v-model="query" :placeholder="$t('placeholder')" />
+      <language-selector></language-selector>
 
-        <div class="field-controls">
-          <label
-            ><input type="checkbox" v-model="searchFields.title" /> {{
-            $t('field.title') }}</label
-          >
-          <label
-            ><input type="checkbox" v-model="searchFields.location" /> {{
-            $t('field.location') }}</label
-          >
-          <label
-            ><input type="checkbox" v-model="searchFields.content" /> {{
-            $t('field.content') }}</label
-          >
-        </div>
+      <search-controls></search-controls>
 
-        <div class="tag-controls">
-          <button @click="addTag" class="tag-add" :disabled="!query.trim()">
-            {{ $t('save_search') }}
-          </button>
-          <button @click="clearSaved" class="tag-clear" v-if="savedTags.length">
-            {{ $t('clear_saved') }}
-          </button>
-        </div>
+      <saved-tags></saved-tags>
 
-        <div class="active-filters" v-if="activeWords.length">
-          {{ $t('active_filters') }}:
-          <span class="active-word" v-for="w in activeWords" :key="w"
-            >{{w}}</span
-          >
-        </div>
+      <job-list></job-list>
 
-        <label style="display: block; margin-top: 8px"
-          ><input type="checkbox" v-model="showReasons" /> {{ $t('show_reasons')
-          }}</label
-        >
-
-        <div class="saved-tags" v-if="savedTags.length">
-          <span
-            class="tag"
-            v-for="(t, idx) in savedTags"
-            :key="t.text"
-            :class="{active: t.active}"
-            @click="toggleTag(idx)"
-          >
-            {{t.text}}
-          </span>
-        </div>
-      </div>
-      <div v-if="loading">{{ $t('loading') }}</div>
-      <div v-else>
-        <div v-if="filtered.length===0">{{ $t('no_jobs') }}</div>
-        <ul>
-          <li v-for="job in filtered" :key="job && job.id">
-            <template v-if="job">
-              <a
-                :href="job.url || '#'"
-                target="_blank"
-                rel="noopener"
-                v-html="highlightTitle(job)"
-              ></a>
-              <div class="meta">{{job.location || ''}}</div>
-              <div class="match-reasons" v-if="showReasons">
-                <span v-for="m in getMatchInfo(job)" :key="m.word"
-                  >{{m.word}}: {{m.fields.join(', ')}}</span
-                >
-              </div>
-            </template>
-          </li>
-        </ul>
-      </div>
       <p class="note">{{ $t('note') }}</p>
     </div>
-    <script src="assets/app.js"></script>
+    <script type="module" src="assets/main.js"></script>
   </body>
 </html>
