@@ -1,0 +1,69 @@
+# Node.js
+
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+build/
+.out/
+.next/
+.nuxt/
+.vite/
+
+# local env files
+.env
+.env.local
+.env.*.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# runtime files
+pids/
+*.pid
+*.pid.lock
+
+# coverage
+coverage/
+.nyc_output/
+
+# cache
+.cache/
+.parcel-cache/
+.cache-loader/
+
+# tooling
+.vscode/
+.idea/
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# archives
+*.tgz
+*.zip
+
+# serverless / other
+.serverless/
+.firebase/
+.vercel/
+
+# temp
+*.tmp
+tmp/
+
+# Ignore build artifacts from Vite
+dist/
+
+# Ignore node logs
+npm-debug.log*
+
+# keep lockfiles (package-lock.json/yarn.lock) tracked
