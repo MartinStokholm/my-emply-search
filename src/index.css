@@ -1,0 +1,13 @@
+@import "../assets/style.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shadcn-inspired utilities (example) */
+:root{
+  --shadcn-primary: #0a66c2;
+}
+
+/* small helper for highlighted matches when using Tailwind classes */
+.mark-highlight{ background: #fff59a; padding: 0 4px; border-radius: 3px; }

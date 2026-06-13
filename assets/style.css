@@ -43,9 +43,52 @@ body {
   background: #f0f0f0;
   cursor: pointer;
   font-size: 14px;
+  position: relative;
+  padding-right: 32px; /* space for remove button */
+  transition: background .12s ease, transform .08s ease;
+}
+.saved-tags .tag:hover {
+  background: #e8f4ff;
+  transform: translateY(-1px);
+}
+.saved-tags .tag .remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(0,0,0,0.05);
+  color: #444;
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity .12s ease, transform .12s ease, background .12s ease;
+  cursor: pointer;
+}
+.saved-tags .tag:hover .remove {
+  opacity: 1;
+  transform: scale(1);
+}
+.saved-tags .tag .remove:focus {
+  outline: 2px solid rgba(10,102,194,0.25);
 }
 .saved-tags .tag.active {
   background: #0a66c2;
+  color: #fff;
+}
+/* Improve remove-button contrast on active tag */
+.saved-tags .tag.active .remove {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+.saved-tags .tag.active:hover .remove {
+  background: rgba(255,255,255,0.22);
   color: #fff;
 }
 .active-filters {
@@ -63,6 +106,53 @@ body {
   color: #555;
   margin-top: 6px;
 }
+
+/* Toggle switch for show match reasons */
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  user-select: none;
+}
+.toggle-label { font-size: 14px; color: #333; }
+.toggle input[type="checkbox"] {
+  /* visually hide native checkbox but keep it accessible */
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-ui {
+  width: 46px;
+  height: 26px;
+  background: #e6e6e6;
+  border-radius: 16px;
+  position: relative;
+  transition: background .18s ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+}
+.toggle-ui::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .18s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+/* Checked state */
+.toggle input[type="checkbox"]:checked + .toggle-ui {
+  background: linear-gradient(135deg,#0a66c2,#2b8bf2);
+}
+.toggle input[type="checkbox"]:checked + .toggle-ui::after {
+  transform: translateX(20px);
+}
+
 .highlight {
   background: #fff59a;
   padding: 0 4px;
