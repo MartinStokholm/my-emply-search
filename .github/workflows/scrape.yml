@@ -7,7 +7,7 @@ on:
     paths:
       - ".github/workflows/scrape.yml"
   schedule:
-    - cron: "3 8 * * *"
+   
   workflow_dispatch:
 
 jobs:
